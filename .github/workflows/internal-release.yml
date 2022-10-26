@@ -1,4 +1,4 @@
-name: production-release
+name: internal-release
 
 on:
   release:
