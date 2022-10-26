@@ -43,7 +43,7 @@ export async function checkUpdate(request: FastifyRequest) {
 			request.hostname === "arm.coolify.io";
 		const currentVersion = version;
 		const { data: versions } = await axios.get(
-			`https://get.coollabs.io/versions.json?appId=${process.env["COOLIFY_APP_ID"]}&version=${currentVersion}`
+			`https://get.cool.themark.dev/versions.json?appId=${process.env["COOLIFY_APP_ID"]}&version=${currentVersion}`
 		);
 		const latestVersion = versions["coolify"].main.version;
 		const isUpdateAvailable = compareVersions(latestVersion, currentVersion);
@@ -67,13 +67,13 @@ export async function update(request: FastifyRequest<Update>) {
 	try {
 		if (!isDev) {
 			const { isAutoUpdateEnabled } = await prisma.setting.findFirst();
-			await asyncExecShell(`docker pull coollabsio/coolify:${latestVersion}`);
+			await asyncExecShell(`docker pull themarkwill/coolify:${latestVersion}`);
 			await asyncExecShell(`env | grep COOLIFY > .env`);
 			await asyncExecShell(
 				`sed -i '/COOLIFY_AUTO_UPDATE=/cCOOLIFY_AUTO_UPDATE=${isAutoUpdateEnabled}' .env`
 			);
 			await asyncExecShell(
-				`docker run --rm -tid --env-file .env -v /var/run/docker.sock:/var/run/docker.sock -v coolify-db coollabsio/coolify:${latestVersion} /bin/sh -c "env | grep COOLIFY > .env && echo 'TAG=${latestVersion}' >> .env && docker stop -t 0 coolify coolify-fluentbit && docker rm coolify coolify-fluentbit && docker compose pull && docker compose up -d --force-recreate"`
+				`docker run --rm -tid --env-file .env -v /var/run/docker.sock:/var/run/docker.sock -v coolify-db themarkwill/coolify:${latestVersion} /bin/sh -c "env | grep COOLIFY > .env && echo 'TAG=${latestVersion}' >> .env && docker stop -t 0 coolify coolify-fluentbit && docker rm coolify coolify-fluentbit && docker compose pull && docker compose up -d --force-recreate"`
 			);
 			return {};
 		} else {
