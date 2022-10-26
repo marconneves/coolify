@@ -1,8 +1,8 @@
 name: production-release
 
 on:
-  # release:
-  #   types: [released]
+  release:
+    types: [prereleased]
 
 jobs:
   arm64:
