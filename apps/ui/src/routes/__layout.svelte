@@ -471,7 +471,7 @@
 			<li class="w-full">
 				<a
 					class="text-xs hover:bg-coolgray-200 no-underline hover:text-white text-right"
-					href={`https://github.com/coollabsio/coolify/releases/tag/v${$appSession.version}`}
+					href={`https://github.com/themarkwill/coolify/releases/tag/v${$appSession.version}`}
 					target="_blank noreferrer">v{$appSession.version}</a
 				>
 			</li>
